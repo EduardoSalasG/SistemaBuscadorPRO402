@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SistemaBuscador.Models;
 using SistemaBuscador.Repositories;
+using SistemaBuscador.Testing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,12 @@ namespace SistemaBuscador.Controllers
 
         public IActionResult Index()
         {
+            DateTime fecha = new DateTime(2000, 12, 1);
+            string sexo = "M";
+            var servicioMilitar = new ServicioMilitar(new Calculos());
+            var resultado = servicioMilitar.EsApto(fecha, sexo);
             return View();
+
         }
 
         [HttpPost]
