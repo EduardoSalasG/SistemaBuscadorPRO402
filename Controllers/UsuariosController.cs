@@ -23,9 +23,11 @@ namespace SistemaBuscador.Controllers
             return View(listaUsuario);
         }
 
-        public IActionResult NuevoUsuario()
+        public async Task<IActionResult> NuevoUsuario()
         {
-            return View();
+
+            var model = await _repository.NuevoUsuarioCreacion();
+            return View(model);
         }
 
         [HttpPost]
@@ -62,8 +64,12 @@ namespace SistemaBuscador.Controllers
         [HttpPost]
         public async Task<IActionResult> CambiarPassword(UsuarioCambioPasswordModel model)
         {
-            await _repository.ActualizarPassword(model);
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                await _repository.ActualizarPassword(model);
+                return RedirectToAction("Index");
+            }
+            return View(model);
         }
 
         public async Task<IActionResult> EliminarUsuario (int id)
